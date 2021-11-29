@@ -86,3 +86,77 @@ def test_3():
                 prev = actual
         except EOFError:
             break
+# Problem Collatza
+def Collatz():
+    n = int(input())
+    for i in range(n):
+        xn = int(input())
+        if xn == 1:
+            print(0)
+        else:
+            i = 0
+            while(xn != 1):
+                if(xn%2):
+                    xn = 3*xn+1
+                    i+=1
+                else:
+                    xn = xn/2
+                    i+=1
+            print(i)
+
+# Transpozycja maceirzy:
+def Transpose():
+    for linia in sys.stdin:
+        linia = str.split(linia)
+        macierz = []
+        for i in range(int(linia[0])):
+            wiersz_macierzy = str.split(sys.stdin.readline())
+            macierz.append(wiersz_macierzy)
+        transpozycja = []
+        for i in range(int(linia[1])):
+            print(*[macierz[j][i] for j in range(int(linia[0]))])
+
+#Parzyste nieparzyste
+def Parzyste_nieparzyste():
+    n = int(input())
+    for i in range(n):
+        linia = str.split(sys.stdin.readline())[1:]
+        nieparzyste = [linia[2*x] for x in range(len(linia)//2)]
+        parzyste = [linia[2*x+1] for x in range(len(linia)//2)]
+        if(len(linia)%2):
+            print(*parzyste,*nieparzyste,linia[len(linia)-1])
+        else:
+            print(*parzyste,*nieparzyste)
+
+#zliczacz liter
+def Zliczacz():
+    n = int(input())
+    mapa = dict()
+    podzielone = []
+    for i in range(n):
+        slowo = str.split(str.strip(sys.stdin.readline()))
+        for x in slowo:
+            podzielone = list(x)
+            for literka in podzielone:
+                if literka not in mapa:
+                    mapa[literka] = 1
+                else:
+                    mapa[literka] += 1
+    mapa = sorted(mapa.items(), key = lambda x:(ord(x[0]) +x[0].isupper()*100))
+    for key,value in mapa:
+        print(key,value)
+#PESEL
+def PESEL():
+    mnozniki = [1,3,7,9,1,3,7,9,1,3,1]
+    for i in range(int(input())):
+        suma_cyfr = 0
+        liczby = str.strip(sys.stdin.readline())
+        liczby = [int(x) for x in liczby]
+        print(liczby)
+        for x in range(len(liczby)):
+            suma_cyfr += liczby[x]*mnozniki[x]
+        if(suma_cyfr%10 ==0 and suma_cyfr !=0):
+            print('D')
+        else:
+            print('N')
+
