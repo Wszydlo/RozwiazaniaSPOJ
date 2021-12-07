@@ -1,5 +1,6 @@
 import sys
-
+import re
+import string
 #rozwiazanie problemu Suma
 def suma():
     suma = 0
@@ -159,4 +160,43 @@ def PESEL():
             print('D')
         else:
             print('N')
+#Register i login:
+def Register(baza_danych :dict,login :str,password: str) ->str:
+    #checking validation
+    pattern_login = re.compile('[a-zA-Z0-9]')
+    val_special = re.findall(r'\W',password)
+    val_number = re.findall(r'[0-9]',password)
+    val_LCletter = re.findall(r'[a-z]',password)
+    val_UCletter = re.findall(r'[A-Z]',password)
+    val_pass =  (val_number != []) and (val_LCletter != []) and (val_UCletter != []) and (val_special != []) and 5<=len(password)<=15
+    if not (len(re.findall(pattern_login,login)) == len(login) and 3 <= len(login) <= 12 and val_pass) :
+       return 'Blad'
+    else:   
+        if login in baza_danych.keys():
+            return 'Login zajety'
+        baza_danych[login] = password
+        return 'Zarejestrowano'
+def Login(baza_danych : dict,login: str,password: str)-> str:
+    if login not in baza_danych.keys():
+        return 'Konto nie istnieje'
+    if baza_danych[login] == password:
+        return 'Zalogowano'
+    else:
+        return 'Zle haslo'
+def Login_Register():
+    baza_danych = {}
+    while True:
+        try:
+            action = str.split(sys.stdin.readline())
+            if action[0]== 'register':
+                func = Register
+            else:
+                func = Login
+            for n in range(int(action[1])):
+                line = str.split(sys.stdin.readline())
+                login,password = line[0],line[1]
+                print(func(baza_danych,login,password))
+        except:
+            break
+Login_Register()
 
